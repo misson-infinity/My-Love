@@ -4,15 +4,127 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elegant Countdown Website</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* বেসিক রিসেট */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom, #ffefd5, #ffd1dc);
+            color: #333;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        /* হেডার স্টাইল */
+        header {
+            background-color: #f39ac7;
+            padding: 20px;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        /* কাউন্টডাউন সেকশন */
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 50px 0;
+            gap: 20px;
+        }
+
+        .countdown-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100px;
+        }
+
+        .countdown-box span {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f39ac7;
+        }
+
+        .countdown-box p {
+            margin: 5px 0 0;
+            font-size: 1rem;
+            color: #666;
+        }
+
+        /* লুকানো কন্টেন্ট */
+        .hidden {
+            display: none;
+        }
+
+        #hiddenContent {
+            margin-top: 30px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .animated-message h2 {
+            color: #f39ac7;
+            font-size: 2rem;
+        }
+
+        .animated-message .message {
+            margin: 10px 0;
+            color: #333;
+            font-size: 1.2rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #fff;
+            background-color: #f39ac7;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #d86aa5;
+        }
+
+        /* ফুটার */
+        footer {
+            margin-top: 50px;
+            padding: 10px 20px;
+            background: #333;
+            color: #fff;
+            font-size: 0.9rem;
+        }
+
+        /* এনিমেশন */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1 class="animated-header">✨ Welcome, My Pretty wifee 👰 ✨</h1>
-        <p> </p>
+        <h1 class="animated-header">✨ Welcome, My Pretty Wifee 👰 ✨</h1>
+        <p></p>
     </header>
 
-    <!-- Countdown Timer Section -->
+    <!-- কাউন্টডাউন টাইমার সেকশন -->
     <section class="countdown-container">
         <div class="countdown-box">
             <span id="days">00</span>
@@ -32,17 +144,46 @@
         </div>
     </section>
 
-    <!-- Hidden Content -->
+    <!-- লুকানো কন্টেন্ট -->
     <section id="hiddenContent" class="hidden animated-message">
-        <h2>🎉 Happy Birthday!My Love 🎉</h2>
+        <h2>🎉 Happy Birthday! My Love 🎉</h2>
         <p class="message">This is your day to shine! Embrace the joy and magic of your special day. 🥳</p>
-        <a href="page2.html" class="btn">Click on this, My Sweetheart </a>
+        <a href="page2.html" class="btn">Click on this, My Sweetheart</a>
     </section>
 
     <footer>
         <p>Created with love by Mahi. ❤️</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // কাউন্টডাউন টাইমার
+        const countdown = () => {
+            const targetDate = new Date("January 10, 2025 05:20:00").getTime();  // ৩ মিনিট পিছিয়ে দেওয়া হয়েছে
+            const now = new Date().getTime();
+            const timeRemaining = targetDate - now;
+
+            // দিন, ঘণ্টা, মিনিট, সেকেন্ড ক্যালকুলেট করা
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+            // HTML-এ মান বসানো
+            document.getElementById("days").textContent = days < 10 ? `0${days}` : days;
+            document.getElementById("hours").textContent = hours < 10 ? `0${hours}` : hours;
+            document.getElementById("minutes").textContent = minutes < 10 ? `0${minutes}` : minutes;
+            document.getElementById("seconds").textContent = seconds < 10 ? `0${seconds}` : seconds;
+
+            // যদি টাইম শেষ হয়ে যায়, লুকানো মেসেজ দেখাও
+            if (timeRemaining < 0) {
+                clearInterval(timerInterval);
+                document.querySelector(".countdown-container").style.display = "none";
+                document.getElementById("hiddenContent").classList.remove("hidden");
+            }
+        };
+
+        // প্রতি ১ সেকেন্ডে আপডেট করার জন্য সেট ইন্টারভ্যাল
+        const timerInterval = setInterval(countdown, 1000);
+    </script>
 </body>
 </html>
