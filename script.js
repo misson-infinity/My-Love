@@ -1,5 +1,5 @@
 // Set your target date and time
-const targetDate = new Date("2025-01-10 T02:05:8").getTime();
+const targetDate = new Date("2025-01-17T00:00:00").getTime();
 
 // Countdown function
 const countdown = setInterval(() => {
